@@ -1,21 +1,12 @@
-# isPrototypeOf Remaster
+# AccountingJS: toFixed() with string manipulation
+- This is a modified version of AccountingJS. 
+- toFixed() in accounting.js now fixes the built-in toFixed() via string manipulation.
 
-## Description
-isPrototypeOf checks if an object exists in prototype chain
+## Original Library
+**accounting.js** is a tiny JavaScript library for number, money and currency parsing/formatting. It's lightweight, fully localisable, has no dependencies, and works great client-side or server-side. Use standalone or as a nodeJS/npm and AMD/requireJS module.
 
-## Parameters
-possiblePrototype: test if objToTest is a prototype of possiblePrototype
-objTarget: the object we're testing
+Visit the plugin homepage for demos and documentation: **http://openexchangerates.github.io/accounting.js/**
 
-# Returns
-true if object exists in the prototype chain, false otherwise
+Please checkout or download the latest stable tag before using in production. [Bug reports](https://github.com/openexchangerates/accounting.js/issues) and pull requests are welcome.
 
-## Notes on Features for isPrototypeOf Remaster
-- How it should work:
-```javascript
-Object           <-- is prototype of Foo (and everything below)
-	Foo          <-- is prototype of Bar (and everything below)
-		Bar      <-- is prototype of Baz (and everything below)
-			Baz  <-- is prototype of baz (and everything below)
-				baz                      (and everything below)
-```
+Maintained by [Open Exchange Rates](https://openexchangerates.org "Free reliable exchange rates/currency conversion data API") and originally by [@josscrowcroft](http://twitter.com/josscrowcroft) and other [contributors](https://github.com/openexchangerates/accounting.js/contributors).
