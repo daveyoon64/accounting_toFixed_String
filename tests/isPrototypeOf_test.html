@@ -1,0 +1,169 @@
+<script src="../simpletest.js"></script>
+<script>
+
+// Prototype Implementation
+// function isPrototypeOf(possiblePrototype, targetObject) {
+//   if (Object.getPrototypeOf(targetObject) === null) { return; } // base case
+
+//   var name = Object.getPrototypeOf(targetObject);
+//   if (name !== possiblePrototype) {
+//     isPrototypeOf(possiblePrototype, name);
+//   } else {
+//     return true;
+//   }
+// }
+
+// Description
+// isPrototypeOf() checks if an object exists in prototype chain
+
+// Syntax
+// isPrototypeOf(possiblePrototype, targetObject)
+
+// Parameters
+// possiblePrototype: object that could be targetObject's prototype
+// targetObject: the object we're testing
+
+// Returns
+// true, if the prototype lies in the prototype chain (from targetObject.prototype to Object.prototype)
+// else, returns false
+
+// Requirements
+// if possiblePrototype is the prototype of targetObject, it should return true
+// if possiblePrototype is in the prototype chain of targetObject, it should return true
+// if possiblePrototype is not the prototype of targetObject, it should return false
+// if possiblePrototype is not in the prototype chain of targetObject, it should return false
+// if targetObject is an empty object (no __proto__), it should return false
+
+function isPrototypeOf(possiblePrototype, targetObject) {
+  if (Object.getPrototypeOf(targetObject) === null) { return false; } // base case
+  var objName = Object.getPrototypeOf(targetObject);
+  if (objName !== possiblePrototype) {
+    return isPrototypeOf(possiblePrototype, objName);
+  } else {
+    return true;
+  }
+}
+
+tests({
+  'if possiblePrototype is the prototype of targetObject, it should return true': function() {
+    var canine = {
+      bark: function() {
+        console.log('bark');
+      }
+    };
+    var dog = Object.create(canine);
+    var test = isPrototypeOf(canine, dog);
+    eq(test, true);
+  },
+  'if possiblePrototype is not the prototype of targetObject, it should return false': function() {
+    var canine = {
+      bark: function() {
+        console.log('bark');
+      }
+    };
+    var flower = {
+      grow: function() {
+        console.log('MMM SUN');
+      }
+    };
+    var dog = Object.create(canine);
+    var test = isPrototypeOf(flower, dog);
+    eq(test, false);
+  },
+  'if targetObject is an empty object (no __proto__), it should return false': function() {
+    var wolf = {
+      bark: function() {
+        console.log('awoooooooooooo');
+      }
+    };
+    var dog = Object.create(wolf);
+    var empty = Object.create(null);
+    var test = isPrototypeOf(wolf, empty);
+    eq(test, false);
+  },
+  'if possiblePrototype is in the prototype chain of targetObject, it should return true': function() {
+    var toyota = {
+      gas: function() {
+        console.log('25+ mpg!');
+      }
+    };
+    var truck = Object.create(toyota);
+    truck.honk = function() {
+      console.log("ooooowahhhh");
+    }
+    var tacomaTRD = Object.create(truck)
+    var test = isPrototypeOf(toyota, tacomaTRD);
+    eq(test, true);
+  },
+  'if possiblePrototype is not in the prototype chain of targetObject, it should return false': function() {
+    var chaos = {
+      random: function() {
+        console.log('5 pts to Gryffindor');
+      }
+    };
+    var ball = {
+      throw: function() {
+        console.log('throwwww');
+      }
+    };
+    var basketball = Object.create(ball);
+    basketball.bounce = function() {
+      console.log('bounceeeeee!');
+    };
+    var calvinball = Object.create(basketball);
+    var test = isPrototypeOf(chaos, calvinball);
+    eq(test, false);
+  },
+  'if possiblePrototype has multiple prototype links and is in the prototype chain of targetObject, it should return true': function() {
+    var chaos = {
+      random: function() {
+        console.log('5 pts to Gryffindor');
+      }
+    };
+    var ball = Object.create(chaos);
+    ball.throw = function() {
+      console.log('throwwww');
+    };
+    var basketball = Object.create(ball);
+    basketball.bounce = function() {
+      console.log('bounceeeeee!');
+    };
+    var daveball = Object.create(basketball);
+    var test = isPrototypeOf(chaos, daveball);
+    eq(test, true);
+  },
+  'if possiblePrototype has multiple prototype links and is not in the prototype chain of targetObject, it should return false': function() {
+    var chaos = {
+      random: function() {
+        console.log('5 pts to Gryffindor');
+      }
+    };
+    var physics = {};
+    var ball = Object.create(physics);
+    ball.throw = function() {
+      console.log('throwwww');
+    };
+    var basketball = Object.create(ball);
+    basketball.bounce = function() {
+      console.log('bounceeeeee!');
+    };
+    var daveball = Object.create(basketball);
+    var test = isPrototypeOf(chaos, daveball);
+    eq(test, false);
+  },
+  'if possiblePrototype is Object.prototype, it should return true, no what what targetObject is': function() {
+    var chaos = {
+      random: function() {
+        console.log('5 pts to Gryffindor');
+      }
+    };
+    var test = isPrototypeOf(Object.prototype, chaos);
+    eq(test, true);
+  },
+  'if possiblePrototype is Object.prototype and targetObject is a blank object, it should return false': function() {
+    var empty = Object.create(null);
+    var test = isPrototypeOf(Object.prototype, empty);
+    eq(test, false);
+  },
+});
+</script>
